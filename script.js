@@ -233,20 +233,7 @@ setInterval(() => {
   goToReview((revIndex + 1) % reviewsData.length);
 }, 5000);
 
-/* ─── CONTACT FORM ───────────────────────────────────────── */
-document.getElementById('contact-form').addEventListener('submit', (e) => {
-  e.preventDefault();
-  const btn = e.target.querySelector('button[type="submit"]');
-  const btnText = btn.querySelector('.btn-text');
-  if (btnText) btnText.textContent = 'Sending...';
-  btn.disabled = true;
-  setTimeout(() => {
-    document.getElementById('form-success').classList.remove('hidden');
-    e.target.reset();
-    if (btnText) btnText.textContent = 'Send Enquiry →';
-    btn.disabled = false;
-  }, 1500);
-});
+/* ─── CONTACT FORM (removed — form no longer exists) ───── */
 
 /* ─── SCROLL REVEAL ──────────────────────────────────────── */
 const revealObserver = new IntersectionObserver((entries) => {
