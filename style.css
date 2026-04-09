@@ -594,9 +594,100 @@ h1, h2, h3, h4, h5, h6 {
   box-shadow: 0 8px 24px rgba(201, 168, 76, 0.4);
 }
 
+/* ─── Services & Amenities Cards ───────────────────────── */
+.service-category-card {
+  background: rgba(250, 247, 240, 0.04);
+  border: 1px solid rgba(201, 168, 76, 0.12);
+  border-radius: 12px;
+  padding: 1.5rem;
+  transition: all 0.4s ease;
+  position: relative;
+  overflow: hidden;
+}
+.service-category-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: var(--gold-gradient);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+.service-category-card:hover {
+  border-color: rgba(201, 168, 76, 0.3);
+  background: rgba(250, 247, 240, 0.06);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 32px rgba(201, 168, 76, 0.08);
+}
+.service-category-card:hover::before {
+  opacity: 1;
+}
+.service-category-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid rgba(201, 168, 76, 0.1);
+}
+.service-category-icon {
+  font-size: 1.4rem;
+  line-height: 1;
+}
+.service-category-title {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 600;
+  font-size: 0.85rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+.service-items-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.service-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  font-size: 0.82rem;
+  color: rgba(250, 247, 240, 0.7);
+  line-height: 1.5;
+}
+.service-check {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+  margin-top: 3px;
+  color: var(--gold);
+  opacity: 0.7;
+}
+
+/* ─── Review Avatar ─────────────────────────────────────── */
+.review-author-row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+.review-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 700;
+  font-size: 1rem;
+  color: var(--dark);
+  flex-shrink: 0;
+}
+
 /* ─── Responsive ────────────────────────────────────────── */
 @media (max-width: 768px) {
   .gallery-item:nth-child(1) { grid-row: span 1; }
   .gallery-item:nth-child(5) { grid-column: span 1; }
   .kanji-accent.fade-up { font-size: 7rem; }
+  #services-grid { grid-template-columns: 1fr; }
 }

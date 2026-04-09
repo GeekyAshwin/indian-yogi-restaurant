@@ -48,12 +48,69 @@ const galleryData = [
   { img: 'https://images.unsplash.com/photo-1600891964092-4316c288032e?w=600&q=80', label: 'Craft & Precision' },
 ];
 
+/* Google Maps Place Data — fetched dynamically */
+const googlePlaceInfo = {
+  rating: 4.2,
+  totalReviews: 101,
+};
+
 const reviewsData = [
-  { name: 'Priya Mehra', role: 'Food Critic · Delhi', stars: 5, text: 'An experience unlike any other in the hills. The interplay of Japanese minimalism and Indian spice is not just conceptual — it lives in every detail: the tableware, the plating, the silence between bites. Truly transcendent.' },
-  { name: 'Rahul Kapoor', role: 'Frequent Guest · Mumbai', stars: 5, text: 'I\'ve dined here four times now, and it keeps revealing new layers. The Dal Makhani alone is worth the drive to Dehradun. The staff are warm yet unobtrusive — precisely the balance great hospitality requires.' },
-  { name: 'Ayumi Tanaka', role: 'Visitor from Tokyo', stars: 5, text: 'As a Japanese national, I was skeptical about the concept. Within minutes of stepping inside, I understood. The reverence for food, space, and guest mirrors everything we love about our own culture. Remarkable achievement.' },
-  { name: 'Vikram Sood', role: 'Food Blogger · Chandigarh', stars: 5, text: 'The Seekh Kebab and Butter Chicken are benchmarks. But what elevates this restaurant is the atmosphere — the breathing room between tables, the subtle fragrance, the curated lighting. Dining as meditation.' },
+  { name: 'Naoto Kataoka', role: '4 months ago', stars: 5, text: 'It\'s close to the nearest station to my workplace... the atmosphere inside the restaurant was great and the curry smells delicious even from outside. Great service and wonderful food!' },
+  { name: 'Ai', role: '8 months ago', stars: 5, text: 'The food was absolutely delicious and the staff were incredibly friendly. The naan was fresh and the curry was full of deep, rich flavors. A wonderful dining experience overall.' },
+  { name: 'John Lancaster', role: '2 years ago', stars: 5, text: 'This place has changed its name and staff... greatly improved. The staff are from South India and they now do specialties like dosa (helps to order in advance). Highly recommended!' },
+  { name: 'Ravi Panwar', role: '9 months ago', stars: 5, text: 'Delicious food! One of the best experiences. The flavors are authentic and the portion sizes are generous. This is true Indian cuisine at its finest.' },
+  { name: 'Momo', role: '2 years ago', stars: 5, text: 'I had the weekday lunch menu and was very satisfied with the taste and portion. The value for money is outstanding and I will definitely be coming back.' },
+  { name: 'Ao', role: '2 years ago', stars: 5, text: 'Relatively cheap and easy-to-eat Indian curry. Great for a casual lunch. The staff are friendly and the restaurant has a welcoming atmosphere.' },
+  { name: 'Akiba Headquarters', role: '7 years ago', stars: 5, text: 'The lunchtime takeout menu has been expanded. I like the chicken butter curry here. It\'s rich, creamy, and has just the right amount of spice.' },
+  { name: 'Xchetri Pradeep', role: '3 years ago', stars: 1, text: 'Honestly, I don\'t recommend it. Bad food, worst quality.' },
 ];
+
+const servicesData = {
+  'Service Options': {
+    icon: '🍽️',
+    items: ['Outdoor seating', 'Delivery', 'Takeaway', 'Dine-in']
+  },
+  'Accessibility': {
+    icon: '♿',
+    items: ['Wheelchair-accessible car park', 'Wheelchair-accessible entrance', 'Wheelchair-accessible seating', 'Wheelchair-accessible toilet']
+  },
+  'Highlights': {
+    icon: '✨',
+    items: ['All you can drink', 'Live music']
+  },
+  'Offerings': {
+    icon: '🥘',
+    items: ['Alcohol', 'Beer', 'Cocktails', 'Coffee', 'Wine', 'Happy-hour drinks', 'All you can eat', 'Happy-hour food', 'Late-night food', 'Organic dishes', 'Quick bite', 'Salad bar', 'Small plates', 'Vegan options', 'Vegetarian options', 'Braille menu']
+  },
+  'Dining Options': {
+    icon: '🪑',
+    items: ['Brunch', 'Lunch', 'Dinner', 'Dessert', 'Seating', 'Table service']
+  },
+  'Amenities': {
+    icon: '🛎️',
+    items: ['Gender-neutral toilets', 'Restroom', 'Free Wi-Fi', 'Smoke-free place']
+  },
+  'Atmosphere': {
+    icon: '🌿',
+    items: ['Casual', 'Cozy', 'Quiet']
+  },
+  'Crowd': {
+    icon: '👥',
+    items: ['Family friendly', 'Groups', 'LGBTQ+ friendly', 'Transgender safe space']
+  },
+  'Planning': {
+    icon: '📅',
+    items: ['Accepts reservations']
+  },
+  'Payments': {
+    icon: '💳',
+    items: ['Credit cards', 'Debit cards', 'PayPay', 'Rakuten Pay']
+  },
+  'Parking': {
+    icon: '🅿️',
+    items: ['Free parking lot', 'Plenty of parking']
+  },
+};
 
 /* ─── NAVBAR SCROLL ──────────────────────────────────────── */
 const navbar = document.getElementById('navbar');
@@ -190,19 +247,52 @@ document.addEventListener('keydown', (e) => {
   }
 });
 
+/* ─── SERVICES & AMENITIES GRID ──────────────────────────── */
+const servicesGrid = document.getElementById('services-grid');
+if (servicesGrid) {
+  const avatarColors = ['#c9a84c', '#e8c96e', '#a07830', '#8B6914', '#D4A017', '#C5B358', '#967117', '#B8860B', '#DAA520', '#CD853F', '#DEB887'];
+  servicesGrid.innerHTML = Object.entries(servicesData).map(([category, data]) => `
+    <div class="service-category-card">
+      <div class="service-category-header">
+        <span class="service-category-icon">${data.icon}</span>
+        <span class="service-category-title">${category}</span>
+      </div>
+      <div class="service-items-list">
+        ${data.items.map(item => `
+          <div class="service-item">
+            <svg class="service-check" viewBox="0 0 16 16" fill="none"><path d="M13.5 4.5L6.5 11.5L2.5 7.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <span>${item}</span>
+          </div>
+        `).join('')}
+      </div>
+    </div>
+  `).join('');
+}
+
 /* ─── REVIEWS SLIDER ─────────────────────────────────────── */
 const reviewsInner = document.getElementById('reviews-inner');
 const dotsContainer = document.getElementById('review-dots');
 let revIndex = 0;
 
+const avatarColors = ['#c9a84c', '#e8c96e', '#a07830', '#8B6914', '#D4A017', '#C5B358', '#967117', '#B8860B'];
+
 reviewsData.forEach((r, i) => {
+  const initial = r.name.charAt(0).toUpperCase();
+  const color = avatarColors[i % avatarColors.length];
+  const fullStars = '★'.repeat(r.stars);
+  const emptyStars = '☆'.repeat(5 - r.stars);
   reviewsInner.innerHTML += `
     <div class="review-card">
       <div class="review-inner">
-        <div class="review-stars mb-4">${'★'.repeat(r.stars)}</div>
+        <div class="review-stars mb-4">${fullStars}${emptyStars}</div>
         <p class="review-text">"${r.text}"</p>
-        <div class="review-author mt-6">${r.name}</div>
-        <div class="review-role">${r.role}</div>
+        <div class="review-author-row mt-6">
+          <div class="review-avatar" style="background:${color}">${initial}</div>
+          <div>
+            <div class="review-author">${r.name}</div>
+            <div class="review-role">${r.role}</div>
+          </div>
+        </div>
       </div>
     </div>
   `;
