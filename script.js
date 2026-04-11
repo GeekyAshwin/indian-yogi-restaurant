@@ -77,11 +77,7 @@ const servicesData = {
   'Highlights': {
     icon: '✨',
     items: ['All you can drink', 'Live music']
-  },
-  'Offerings': {
-    icon: '🥘',
-    items: ['Alcohol', 'Beer', 'Cocktails', 'Coffee', 'Wine', 'Happy-hour drinks', 'All you can eat', 'Happy-hour food', 'Late-night food', 'Organic dishes', 'Quick bite', 'Salad bar', 'Small plates', 'Vegan options', 'Vegetarian options', 'Braille menu']
-  },
+  },  
   'Dining Options': {
     icon: '🪑',
     items: ['Brunch', 'Lunch', 'Dinner', 'Dessert', 'Seating', 'Table service']
@@ -98,17 +94,17 @@ const servicesData = {
     icon: '👥',
     items: ['Family friendly', 'Groups', 'LGBTQ+ friendly', 'Transgender safe space']
   },
-  'Planning': {
+  'Planning & Parking': {
     icon: '📅',
-    items: ['Accepts reservations']
+    items: ['Accepts reservations', 'Free parking lot', 'Plenty of parking']
   },
   'Payments': {
     icon: '💳',
     items: ['Credit cards', 'Debit cards', 'PayPay', 'Rakuten Pay']
   },
-  'Parking': {
-    icon: '🅿️',
-    items: ['Free parking lot', 'Plenty of parking']
+  'Offerings': {
+    icon: '🥘',
+    items: ['Alcohol', 'Beer', 'Cocktails', 'Coffee', 'Wine', 'Happy-hour drinks', 'All you can eat', 'Happy-hour food', 'Late-night food', 'Organic dishes', 'Quick bite', 'Salad bar', 'Small plates', 'Vegan options', 'Vegetarian options', 'Braille menu']
   },
 };
 
@@ -251,22 +247,25 @@ document.addEventListener('keydown', (e) => {
 const servicesGrid = document.getElementById('services-grid');
 if (servicesGrid) {
   const avatarColors = ['#c9a84c', '#e8c96e', '#a07830', '#8B6914', '#D4A017', '#C5B358', '#967117', '#B8860B', '#DAA520', '#CD853F', '#DEB887'];
-  servicesGrid.innerHTML = Object.entries(servicesData).map(([category, data]) => `
-    <div class="service-category-card">
-      <div class="service-category-header">
-        <span class="service-category-icon">${data.icon}</span>
-        <span class="service-category-title">${category}</span>
+  servicesGrid.innerHTML = Object.entries(servicesData).map(([category, data]) => {
+    const isOfferings = category === 'Offerings';
+    return `
+      <div class="service-category-card${isOfferings ? ' offerings-card' : ''}">
+        <div class="service-category-header">
+          <span class="service-category-icon">${data.icon}</span>
+          <span class="service-category-title">${category}</span>
+        </div>
+        <div class="service-items-list">
+          ${data.items.map(item => `
+            <div class="service-item">
+              <svg class="service-check" viewBox="0 0 16 16" fill="none"><path d="M13.5 4.5L6.5 11.5L2.5 7.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              <span>${item}</span>
+            </div>
+          `).join('')}
+        </div>
       </div>
-      <div class="service-items-list">
-        ${data.items.map(item => `
-          <div class="service-item">
-            <svg class="service-check" viewBox="0 0 16 16" fill="none"><path d="M13.5 4.5L6.5 11.5L2.5 7.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            <span>${item}</span>
-          </div>
-        `).join('')}
-      </div>
-    </div>
-  `).join('');
+    `;
+  }).join('');
 }
 
 /* ─── REVIEWS SLIDER ─────────────────────────────────────── */
