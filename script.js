@@ -7,32 +7,32 @@
 const menuData = {
   starters: [
     { name: 'Samosa Chaat', desc: 'Crispy samosas, tangy tamarind, fresh coriander, spiced yogurt — plated minimally on black slate.', price: '₹220', tag: 'Signature', img: 'https://images.unsplash.com/photo-1601050690597-df0568f70950?w=600&q=80' },
-    { name: 'Tandoori Mushroom', desc: 'Forest mushrooms marinated in smoky tandoori masala, finished with lime leaf oil.', price: '₹280', tag: 'Veg', img: 'https://images.unsplash.com/photo-1627662055786-f64d1e4b1d9a?w=600&q=80' },
+    { name: 'Tandoori Mushroom', desc: 'Forest mushrooms marinated in smoky tandoori masala, finished with lime leaf oil.', price: '₹280', tag: 'Veg', img: 'https://images.unsplash.com/photo-1604908176997-125f25cc6f3d?w=600&q=80' },
     { name: 'Seekh Kebab', desc: 'Hand-minced lamb spiced with coriander and cardamom, charred on skewers, mint chutney.', price: '₹320', tag: 'Chef\'s Pick', img: 'https://images.unsplash.com/photo-1599487488170-d11ec9c172f0?w=600&q=80' },
     { name: 'Dahi Puri', desc: 'Crispy semolina shells, sweet yogurt, pomegranate, tamarind — a burst of flavour.', price: '₹180', tag: 'Popular', img: 'https://images.unsplash.com/photo-1606491956689-2ea866880c84?w=600&q=80' },
     { name: 'Paneer Tikka', desc: 'Cottage cheese cubes marinated in saffron yogurt, grilled to perfection in our tandoor.', price: '₹300', tag: 'Veg', img: 'https://images.unsplash.com/photo-1565557623262-b51c2513a641?w=600&q=80' },
-    { name: 'Fish Amritsari', desc: 'Battered river fish seasoned with carom seeds and turmeric, crisp-fried, chaat masala dusted.', price: '₹350', tag: 'Seasonal', img: 'https://images.unsplash.com/photo-1614777986387-015c2a89c851?w=600&q=80' },
+    { name: 'Fish Amritsari', desc: 'Battered river fish seasoned with carom seeds and turmeric, crisp-fried, chaat masala dusted.', price: '₹350', tag: 'Seasonal', img: 'https://images.unsplash.com/photo-1625220194771-7ebdea0b70b9?w=600&q=80' },
   ],
   mains: [
     { name: 'Dal Makhani', desc: 'Black lentils slow-cooked for 18 hours with butter, cream and aromatic spices. A true classic.', price: '₹340', tag: 'Classic', img: 'https://images.unsplash.com/photo-1546833999-b9f581a1996d?w=600&q=80' },
     { name: 'Rogan Josh', desc: 'Kashmiri lamb braised in whole spices, dried roses and fennel — rich, warming, profound.', price: '₹520', tag: 'Signature', img: 'https://images.unsplash.com/photo-1574653853027-5382a3d23a15?w=600&q=80' },
     { name: 'Butter Chicken', desc: 'Tender chicken in our legendary tomato cream masala — velvety, aromatic, timeless.', price: '₹450', tag: 'Popular', img: 'https://images.unsplash.com/photo-1588166524941-3bf61a9c41db?w=600&q=80' },
-    { name: 'Saag Paneer', desc: 'Spinach and mustard leaf purée with paneer, tempered with ginger, garlic and green chilli.', price: '₹320', tag: 'Veg', img: 'https://images.unsplash.com/photo-1609501676716-b8a6eaafa7b8?w=600&q=80' },
+    { name: 'Saag Paneer', desc: 'Spinach and mustard leaf purée with paneer, tempered with ginger, garlic and green chilli.', price: '₹320', tag: 'Veg', img: 'https://images.unsplash.com/photo-1631515243349-e0cb75fb8d3a?w=600&q=80' },
     { name: 'Prawn Masala', desc: 'Tiger prawns in a bold coastal masala with curry leaf, kokum and freshly grated coconut.', price: '₹580', tag: 'Chef\'s Pick', img: 'https://images.unsplash.com/photo-1617093727343-374698b1b08d?w=600&q=80' },
     { name: 'Biryani Dum', desc: 'Long grain basmati with saffron, caramelised onions and slow-cooked meat. Sealed and dum-cooked.', price: '₹480', tag: 'Signature', img: 'https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?w=600&q=80' },
   ],
   desserts: [
     { name: 'Gulab Jamun', desc: 'Rose water–soaked milk solid dumplings, cardamom syrup, edible gold leaf. Warmly divine.', price: '₹180', tag: 'Classic', img: 'https://images.unsplash.com/photo-1608198093002-ad4e005484ec?w=600&q=80' },
     { name: 'Kulfi Faluda', desc: 'Hand-churned pistachio and rose kulfi, chilled rose milk, saffron vermicelli.', price: '₹220', tag: 'Popular', img: 'https://images.unsplash.com/photo-1570197788417-0e82375c9371?w=600&q=80' },
-    { name: 'Phirni', desc: 'Slow-set rice pudding in a clay pot — rose, cardamom, silver vark. Cool, milky perfection.', price: '₹190', tag: 'Seasonal', img: 'https://images.unsplash.com/photo-1641555601804-7f0b5437c36d?w=600&q=80' },
+    { name: 'Phirni', desc: 'Slow-set rice pudding in a clay pot — rose, cardamom, silver vark. Cool, milky perfection.', price: '₹190', tag: 'Seasonal', img: 'https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?w=600&q=80' },
     { name: 'Ras Malai', desc: 'Pillowy chenna discs soaked in chilled saffron milk, garnished with crushed pistachios.', price: '₹200', tag: 'Signature', img: 'https://images.unsplash.com/photo-1555126634-323283e090fa?w=600&q=80' },
-    { name: 'Shahi Tukda', desc: 'Fried bread royale soaked in rabri — rich, decadent and steeped in Mughal heritage.', price: '₹210', tag: 'Classic', img: 'https://images.unsplash.com/photo-1571167530149-c1105da4c2f4?w=600&q=80' },
+    { name: 'Shahi Tukda', desc: 'Fried bread royale soaked in rabri — rich, decadent and steeped in Mughal heritage.', price: '₹210', tag: 'Classic', img: 'https://images.unsplash.com/photo-1551024601-bec78aea704b?w=600&q=80' },
     { name: 'Mango Lassi Panna Cotta', desc: 'A fusion of Italian technique and Indian flavour — set lassi with fresh Alphonso mango coulis.', price: '₹260', tag: 'Chef\'s Pick', img: 'https://images.unsplash.com/photo-1488477181946-6428a0291777?w=600&q=80' },
   ],
   drinks: [
     { name: 'Masala Chai', desc: 'Our signature spiced brew — ginger, cardamom, cinnamon, poured from a height. Theatre in a cup.', price: '₹80', tag: 'Signature', img: 'https://images.unsplash.com/photo-1571934811356-5cc061b6821f?w=600&q=80' },
     { name: 'Rose Lemonade', desc: 'Fresh lime, rose water, pink pepper and crushed ice. Perfectly balanced sweet-sour.', price: '₹120', tag: 'Popular', img: 'https://images.unsplash.com/photo-1621263764928-df1444c5e859?w=600&q=80' },
-    { name: 'Mango Lassi', desc: 'Chilled Alphonso mango blended with creamy yogurt, a pinch of cardamom and saffron.', price: '₹150', tag: 'Classic', img: 'https://images.unsplash.com/photo-1527551751686-5c3e29f91e38?w=600&q=80' },
+    { name: 'Mango Lassi', desc: 'Chilled Alphonso mango blended with creamy yogurt, a pinch of cardamom and saffron.', price: '₹150', tag: 'Classic', img: 'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=600&q=80' },
     { name: 'Jaljeera Cooler', desc: 'Cumin, mint, tamarind, lemon — an ancient digestive elixir served over crushed ice.', price: '₹100', tag: 'Herbal', img: 'https://images.unsplash.com/photo-1544145945-f90425340c7e?w=600&q=80' },
     { name: 'Thandai', desc: 'Chilled almond-saffron milk infused with rose petals, melon seeds and fennel. Festive and fragrant.', price: '₹130', tag: 'Seasonal', img: 'https://images.unsplash.com/photo-1560180474-e8563fd75bab?w=600&q=80' },
     { name: 'Coconut Neer', desc: 'Fresh tender coconut water infused with tulsi and a squeeze of lime. Pure and refreshing.', price: '₹110', tag: 'Natural', img: 'https://images.unsplash.com/photo-1551538827-9c037cb4f32a?w=600&q=80' },
@@ -168,7 +168,7 @@ function renderMenu(category) {
           <div class="menu-card-title">${item.name}</div>
           <div class="menu-card-desc">${item.desc}</div>
           <div class="menu-card-footer">
-            <span class="menu-card-price">${item.price}</span>
+            <span class="menu-card-price hidden">${item.price}</span>
             <span class="menu-card-tag">${item.tag}</span>
           </div>
         </div>
