@@ -102,7 +102,6 @@ const reviewsData = [
   { name: 'Momo', role: '2 years ago', stars: 5, text: 'I had the weekday lunch menu and was very satisfied with the taste and portion. The value for money is outstanding and I will definitely be coming back.' },
   { name: 'Ao', role: '2 years ago', stars: 5, text: 'Relatively cheap and easy-to-eat Indian curry. Great for a casual lunch. The staff are friendly and the restaurant has a welcoming atmosphere.' },
   { name: 'Akiba Headquarters', role: '7 years ago', stars: 5, text: 'The lunchtime takeout menu has been expanded. I like the chicken butter curry here. It\'s rich, creamy, and has just the right amount of spice.' },
-  { name: 'Xchetri Pradeep', role: '3 years ago', stars: 1, text: 'Honestly, I don\'t recommend it. Bad food, worst quality.' },
 ];
 
 const servicesData = {
