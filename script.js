@@ -39,14 +39,54 @@ const menuData = {
   ],
 };
 
-const galleryData = [
-  { img: 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=800&q=80', label: 'Our Sanctuary' },
-  { img: 'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=600&q=80', label: 'Plated Poetry' },
-  { img: 'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=600&q=80', label: 'Evening Ambience' },
-  { img: 'https://images.unsplash.com/photo-1476224203421-9ac39bcb3327?w=600&q=80', label: 'From the Kitchen' },
-  { img: 'https://images.unsplash.com/photo-1585937421612-70a008356fbe?w=800&q=80', label: 'Indian Colours' },
-  { img: 'https://images.unsplash.com/photo-1600891964092-4316c288032e?w=600&q=80', label: 'Craft & Precision' },
-];
+const galleryCategories = {
+  tab1: [
+    { img: 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=800&q=80', label: 'Our Sanctuary', size: 'tall' },
+    { img: 'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=600&q=80', label: 'Plated Poetry' },
+    { img: 'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=600&q=80', label: 'Evening Ambience' },
+    { img: 'https://images.unsplash.com/photo-1476224203421-9ac39bcb3327?w=600&q=80', label: 'From the Kitchen' },
+    { img: 'https://images.unsplash.com/photo-1585937421612-70a008356fbe?w=800&q=80', label: 'Indian Colours', size: 'wide' },
+    { img: 'https://images.unsplash.com/photo-1600891964092-4316c288032e?w=600&q=80', label: 'Craft & Precision' },
+  ],
+  food: [
+    { img: 'images/food1.png', label: 'Sizzling Delight', size: 'tall' },
+    { img: 'images/food2.jpg', label: 'Traditional Thali' },
+    { img: 'images/food3.png', label: 'Spicy Curries' },
+    { img: 'images/food4.png', label: 'Tandoori Platters' },
+    { img: 'images/food5.jpg', label: 'Handcrafted Naan', size: 'wide' },
+    { img: 'images/food6.png', label: 'Gourmet Presentation' },
+    { img: 'images/naan.png', label: 'Fresh From Tandoor' },
+    { img: 'images/image1.png', label: 'Chef Specials' },
+    { img: 'images/image2.jpg', label: 'Authentic Spices' },
+  ],
+  best: [
+    { img: 'images/best1.png', label: 'Top Rated Curry', size: 'tall' },
+    { img: 'images/best2.png', label: 'Fan Favourite' },
+    { img: 'images/best4.png', label: 'Daily Best' },
+    { img: 'images/best5.png', label: 'House Special', size: 'wide' },
+    { img: 'images/best6.png', label: 'Signature Dish' },
+    { img: 'images/bestfood.png', label: 'Premium Selection' },
+  ],
+  ambience: [
+    { img: 'images/insidecafe.png', label: 'Cozy Interior', size: 'tall' },
+    { img: 'images/interior.jpg', label: 'Zen Atmosphere' },
+    { img: 'images/outsideview.jpg', label: 'Main Entrance' },
+    { img: 'images/outsideview2.png', label: 'Welcome View', size: 'wide' },
+    { img: 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=800&q=80', label: 'Elegant Dining' },
+  ],
+  menu: [
+    { img: 'images/menucard.png', label: 'Main Menu', size: 'tall' },
+    { img: 'images/menuimage1.png', label: 'Starters List' },
+    { img: 'images/menuimage2.png', label: 'Drinks Selection' },
+    { img: 'images/menuimage3.png', label: 'Main Course Details', size: 'wide' },
+    { img: 'images/menuimage4.png', label: 'Dessert Menu' },
+  ],
+  guests: [
+    { img: 'images/customers1.jpg', label: 'Happy Moments', size: 'tall' },
+    { img: 'images/ladiesset.png', label: 'Warm Gatherings' },
+    { img: 'https://images.unsplash.com/photo-1552566626-52f8b828add9?w=800&q=80', label: 'Guest Celebrations' },
+  ]
+};
 
 /* Google Maps Place Data — fetched dynamically */
 const googlePlaceInfo = {
@@ -189,15 +229,55 @@ document.querySelectorAll('.menu-tab').forEach(tab => {
 renderMenu('starters');
 
 /* ─── GALLERY ────────────────────────────────────────────── */
-const galleryGrid = document.querySelector('.gallery-grid');
-galleryGrid.innerHTML = galleryData.map((g, i) => `
-  <div class="gallery-item" data-index="${i}">
-    <img src="${g.img}" alt="${g.label}" loading="lazy"/>
-    <div class="gallery-overlay">
-      <span class="gallery-overlay-text">${g.label}</span>
-    </div>
-  </div>
-`).join('');
+let currentGalleryCategory = 'tab1';
+
+function updateGalleryTabStyles(activeTab) {
+  document.querySelectorAll('.gallery-tab').forEach(t => {
+    t.classList.remove('active');
+    t.classList.remove('!bg-gradient-to-r', '!from-gold', '!to-gold-dark', '!text-dark', '!border-gold');
+    t.classList.add('!text-cream', '!border-gold/30');
+  });
+  activeTab.classList.add('active');
+  activeTab.classList.remove('!text-cream', '!border-gold/30');
+  activeTab.classList.add('!bg-gradient-to-r', '!from-gold', '!to-gold-dark', '!text-dark', '!border-gold');
+}
+
+function renderGallery(category) {
+  currentGalleryCategory = category;
+  const galleryGrid = document.querySelector('.gallery-grid');
+  galleryGrid.style.opacity = '0';
+  galleryGrid.style.transform = 'translateY(20px)';
+  
+  setTimeout(() => {
+    galleryGrid.innerHTML = galleryCategories[category].map((g, i) => `
+      <div class="gallery-item ${g.size || ''}" data-index="${i}">
+        <img src="${g.img}" alt="${g.label}" loading="lazy"/>
+        <div class="gallery-overlay">
+          <span class="gallery-overlay-text">${g.label}</span>
+        </div>
+      </div>
+    `).join('');
+    
+    galleryGrid.style.transition = 'all 0.5s ease';
+    galleryGrid.style.opacity = '1';
+    galleryGrid.style.transform = 'translateY(0)';
+    
+    // Re-attach lightbox listeners
+    document.querySelectorAll('.gallery-item').forEach(item => {
+      item.addEventListener('click', () => openLightbox(+item.dataset.index));
+    });
+  }, 200);
+}
+
+document.querySelectorAll('.gallery-tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    updateGalleryTabStyles(tab);
+    renderGallery(tab.dataset.cat);
+  });
+});
+
+// Initial render
+renderGallery('tab1');
 
 // Lightbox
 const lightbox = document.getElementById('lightbox');
@@ -205,9 +285,10 @@ const lbImg = document.getElementById('lightbox-img');
 let lbIndex = 0;
 
 function openLightbox(i) {
+  const data = galleryCategories[currentGalleryCategory];
   lbIndex = i;
-  lbImg.src = galleryData[i].img;
-  lbImg.alt = galleryData[i].label;
+  lbImg.src = data[i].img;
+  lbImg.alt = data[i].label;
   lightbox.classList.remove('hidden');
   lightbox.classList.add('flex');
   document.body.style.overflow = 'hidden';
@@ -218,19 +299,17 @@ function closeLightbox() {
   document.body.style.overflow = '';
 }
 function moveLightbox(dir) {
-  lbIndex = (lbIndex + dir + galleryData.length) % galleryData.length;
+  const data = galleryCategories[currentGalleryCategory];
+  lbIndex = (lbIndex + dir + data.length) % data.length;
   lbImg.style.opacity = '0';
   setTimeout(() => {
-    lbImg.src = galleryData[lbIndex].img;
-    lbImg.alt = galleryData[lbIndex].label;
+    lbImg.src = data[lbIndex].img;
+    lbImg.alt = data[lbIndex].label;
     lbImg.style.opacity = '1';
   }, 200);
   lbImg.style.transition = 'opacity 0.2s';
 }
 
-document.querySelectorAll('.gallery-item').forEach(item => {
-  item.addEventListener('click', () => openLightbox(+item.dataset.index));
-});
 document.getElementById('lightbox-close').addEventListener('click', closeLightbox);
 document.getElementById('lightbox-prev').addEventListener('click', () => moveLightbox(-1));
 document.getElementById('lightbox-next').addEventListener('click', () => moveLightbox(1));
