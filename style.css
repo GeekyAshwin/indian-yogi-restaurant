@@ -718,3 +718,86 @@ h1, h2, h3, h4, h5, h6 {
   .kanji-accent.fade-up { font-size: 7rem; }
   #services-grid { grid-template-columns: 1fr; }
 }
+
+/* ─── Language Toggle ─────────────────────────────────────── */
+.lang-toggle {
+  display: flex;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(201, 168, 76, 0.3);
+  padding: 2px;
+  border-radius: 4px;
+  gap: 2px;
+}
+.lang-btn {
+  padding: 4px 10px;
+  font-size: 0.65rem;
+  letter-spacing: 0.05em;
+  font-weight: 700;
+  border-radius: 2px;
+  cursor: pointer;
+  transition: all 0.3s;
+  color: rgba(250, 247, 240, 0.5);
+  border: none;
+  background: transparent;
+  text-transform: uppercase;
+}
+.lang-btn.active {
+  background: var(--gold-gradient);
+  color: var(--dark);
+}
+.lang-btn:hover:not(.active) {
+  color: var(--gold);
+}
+
+/* ─── Parent Company Footer ────────────────────────────────── */
+.parent-company-section {
+  background: rgba(201, 168, 76, 0.03);
+  border: 1px solid rgba(201, 168, 76, 0.15);
+  padding: 2rem;
+  border-radius: 8px;
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+}
+.parent-company-section::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 4px; height: 100%;
+  background: var(--gold-gradient);
+}
+.parent-company-title {
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--gold);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  margin-bottom: 0.75rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.parent-company-title::before {
+  content: '';
+  width: 12px;
+  height: 1px;
+  background: var(--gold);
+}
+.parent-company-info {
+  font-size: 0.8rem;
+  color: rgba(250, 247, 240, 0.6);
+  line-height: 1.6;
+}
+.parent-company-info strong {
+  color: var(--cream);
+  font-weight: 600;
+}
+
+/* ─── Mobile Adjustments ────────────────────────────────── */
+@media (max-width: 768px) {
+  .lang-toggle {
+    margin-top: 1rem;
+    align-self: flex-start;
+  }
+}

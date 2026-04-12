@@ -3,15 +3,106 @@
    MGR Global Connect–Inspired Dark & Gold Theme
 ============================================================ */
 
+/* ─── TRANSLATIONS ───────────────────────────────────────── */
+const translations = {
+  en: {
+    nav_home: "Home", nav_menu: "Menu", nav_gallery: "Gallery", nav_about: "About", nav_reviews: "Reviews", nav_contact: "Contact", nav_download: "Digital Card",
+    hero_badge: "Est. 2018 · Isumi, Chiba", hero_title_1: "Indian", hero_title_2: "YOGI", hero_title_3: "Restaurant ヨギ",
+    hero_subtitle: "Authentic Indian Cuisine in Isumi, Chiba", view_menu: "View Menu", contact_us: "Contact Us",
+    about_label: "Our Story", about_title_1: "A Harmony of", about_title_2: "Two Cultures",
+    about_desc1: "Born from a passion for mindful dining, Indian Yogi Restaurant was conceived as a sanctuary where the vibrant, soulful spices of India are presented through the calm, intentional lens of Japanese aesthetics.",
+    about_desc2: "Our chefs weave centuries of culinary tradition into every dish — the boldness of Indian masalas harmonizing with the serene presentation of Japanese wabi-sabi philosophy. Every meal is a meditation.",
+    phil_1_title: "LGBTQ+ Friendly", phil_1_desc: "Everyone is welcome at our table. We celebrate diversity and inclusion.",
+    phil_2_title: "Authentic Flavors", phil_2_desc: "Traditional Indian recipes prepared with love and the finest ingredients.",
+    menu_label: "Culinary Offerings", menu_title_1: "Our", menu_title_2: "Menu",
+    menu_desc: "A curated selection of authentic Indian flavors, plated with the precision and elegance of Japanese artistry.",
+    tab_starters: "Starters", tab_mains: "Main Course", tab_desserts: "Desserts", tab_drinks: "Drinks",
+    gallery_label: "Visual Journey", gallery_title_1: "Our", gallery_title_2: "Gallery",
+    gallery_desc: "Every frame tells the story of flavor, craft, and the quiet art of Indian Yogi.",
+    tab_featured: "Featured", tab_food: "Food", tab_best: "Bestsellers", tab_ambience: "Ambience", tab_menu_list: "Our Menu", tab_moments: "Moments",
+    hours_label: "Visit Us", hours_title_1: "Opening", hours_title_2: "Hours",
+    lunch_label: "Lunch", dinner_label: "Dinner", closed: "Closed",
+    mon: "Monday", tue: "Tuesday", wed: "Wednesday", thu: "Thursday", fri: "Friday", sat: "Saturday", sun: "Sunday",
+    parent_title: "Parent Company", parent_name: "Indra International CO., LTD.",
+    parent_services: "We provide complete support for international business and travel management, including transportation, hotel bookings, itinerary planning, and on-ground assistance.",
+    parent_president_label: "President:", parent_president: "SINGH GOVIND SHREEMADYA", parent_email_label: "Email:"
+  },
+  jp: {
+    nav_home: "ホーム", nav_menu: "メニュー", nav_gallery: "ギャラリー", nav_about: "わたしたちについて", nav_reviews: "レビュー", nav_contact: "予約・連絡", nav_download: "デジタルカード",
+    hero_badge: "2018年創業 · 千葉県いすみ市", hero_title_1: "インド料理", hero_title_2: "ヨギ", hero_title_3: "レストラン YOGI",
+    hero_subtitle: "千葉県いすみ市で味わう本格インド料理", view_menu: "メニューを見る", contact_us: "お問い合わせ",
+    about_label: "私たちの物語", about_title_1: "二つの文化の", about_title_2: "調和",
+    about_desc1: "マインドフルな食事への情熱から生まれたインディアン・ヨギ・レストランは、インドの活気あふれる魂のスパイスを、日本の美意識という穏やかで意図的なレンズを通して表現する聖域として構想されました。",
+    about_desc2: "当店のシェフは、何世紀にもわたる料理の伝統を一皿ごとに織り交ぜています。インドのマサラの力強さが、日本のわびさび哲学の静かな盛り付けと調和しています。すべての食事が瞑想です。",
+    phil_1_title: "LGBTQ+ フレンドリー", phil_1_desc: "どなたでも大歓迎です。私たちは多様性と包摂性を大切にしています。",
+    phil_2_title: "本物の味わい", phil_2_desc: "愛情を込めて調理された、最高級の食材を使用した伝統的なインドのレシピ。",
+    menu_label: "料理の提供", menu_title_1: "お料理", menu_title_2: "メニュー",
+    menu_desc: "日本の芸術性の精密さと優雅さで盛り付けられた、本物のインドの味の厳選されたセレクション。",
+    tab_starters: "前菜", tab_mains: "メインコース", tab_desserts: "デザート", tab_drinks: "お飲み物",
+    gallery_label: "視覚の旅", gallery_title_1: "フォト", gallery_title_2: "ギャラリー",
+    gallery_desc: "すべてのフレームが、風味、技術、そしてインディアン・ヨギの静かな芸術の物語を語ります。",
+    tab_featured: "おすすめ", tab_food: "料理", tab_best: "人気メニュー", tab_ambience: "雰囲気", tab_menu_list: "メニュー表", tab_moments: "大切な時間",
+    hours_label: "ご来店をお待ちしております", hours_title_1: "営業", hours_title_2: "時間",
+    lunch_label: "ランチ", dinner_label: "ディナー", closed: "定休日",
+    mon: "月曜日", tue: "火曜日", wed: "水曜日", thu: "木曜日", fri: "金曜日", sat: "土曜日", sun: "日曜日",
+    parent_title: "親会社", parent_name: "インドラ・インターナショナル有限会社",
+    parent_services: "国際ビジネスや旅行管理を完全にサポートし、輸送、ホテルの予約、旅程の計画、現地の支援を提供しています。スパイスの販売も行っております。",
+    parent_president_label: "代表取締役:", parent_president: "シング・ゴヴィンド・シュリマディヤ", parent_email_label: "メール:"
+  }
+};
+
+let currentLang = 'en';
+
+function switchLanguage(lang) {
+  currentLang = lang;
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.getAttribute('data-i18n');
+    if (translations[lang][key]) {
+      el.textContent = translations[lang][key];
+    }
+  });
+
+  // Update active state of toggle buttons
+  document.querySelectorAll('.lang-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.getAttribute('data-lang') === lang);
+  });
+
+  // Update menu rendering to reflect language change if needed (not strictly necessary if using keys in objects, but good for UI)
+  renderMenu(document.querySelector('.menu-tab.active').dataset.cat);
+}
+
+async function downloadVisitingCard() {
+  const file = currentLang === 'en' ? 'images/visiting-card-eng.jpeg' : 'images/visiting-card-jap.jpeg';
+  try {
+    const response = await fetch(file);
+    const blob = await response.blob();
+    const url = window.URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = file.split('/').pop();
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    window.URL.revokeObjectURL(url);
+  } catch (error) {
+    console.error('Download failed:', error);
+    // Fallback
+    const link = document.createElement('a');
+    link.href = file;
+    link.download = file.split('/').pop();
+    link.click();
+  }
+}
+
 /* ─── DATA ───────────────────────────────────────────────── */
 const menuData = {
   starters: [
-    { name: 'Samosa Chaat', desc: 'Crispy samosas, tangy tamarind, fresh coriander, spiced yogurt — plated minimally on black slate.', price: '₹220', tag: 'Signature', img: 'https://images.unsplash.com/photo-1601050690597-df0568f70950?w=600&q=80' },
-    { name: 'Tandoori Mushroom', desc: 'Forest mushrooms marinated in smoky tandoori masala, finished with lime leaf oil.', price: '₹280', tag: 'Veg', img: 'https://images.unsplash.com/photo-1604908176997-125f25cc6f3d?w=600&q=80' },
-    { name: 'Seekh Kebab', desc: 'Hand-minced lamb spiced with coriander and cardamom, charred on skewers, mint chutney.', price: '₹320', tag: 'Chef\'s Pick', img: 'https://images.unsplash.com/photo-1599487488170-d11ec9c172f0?w=600&q=80' },
-    { name: 'Dahi Puri', desc: 'Crispy semolina shells, sweet yogurt, pomegranate, tamarind — a burst of flavour.', price: '₹180', tag: 'Popular', img: 'https://images.unsplash.com/photo-1606491956689-2ea866880c84?w=600&q=80' },
-    { name: 'Paneer Tikka', desc: 'Cottage cheese cubes marinated in saffron yogurt, grilled to perfection in our tandoor.', price: '₹300', tag: 'Veg', img: 'https://images.unsplash.com/photo-1565557623262-b51c2513a641?w=600&q=80' },
-    { name: 'Fish Amritsari', desc: 'Battered river fish seasoned with carom seeds and turmeric, crisp-fried, chaat masala dusted.', price: '₹350', tag: 'Seasonal', img: 'https://images.unsplash.com/photo-1625220194771-7ebdea0b70b9?w=600&q=80' },
+    { name: 'Samosa Chaat', name_jp: 'サモサ・チャート', desc: 'Crispy samosas, tangy tamarind, fresh coriander, spiced yogurt — plated minimally on black slate.', desc_jp: 'カリカリのサモサに、タマリンド、フレッシュコリアンダー、スパイスヨーグルトを添えて。', price: '₹220', tag: 'Signature', img: 'https://images.unsplash.com/photo-1601050690597-df0568f70950?w=600&q=80' },
+    { name: 'Tandoori Mushroom', name_jp: 'タンドリーマッシュルーム', desc: 'Forest mushrooms marinated in smoky tandoori masala, finished with lime leaf oil.', desc_jp: 'スモーキーなタンドリーマサラに漬け込んだ森のキノコ。', price: '₹280', tag: 'Veg', img: 'https://images.unsplash.com/photo-1604908176997-125f25cc6f3d?w=600&q=80' },
+    { name: 'Seekh Kebab', name_jp: 'シークケバブ', desc: 'Hand-minced lamb spiced with coriander and cardamom, charred on skewers, mint chutney.', desc_jp: 'コリアンダーとカルダモンで味付けしたラムのひき肉の串焼き。', price: '₹320', tag: 'Chef\'s Pick', img: 'https://images.unsplash.com/photo-1599487488170-d11ec9c172f0?w=600&q=80' },
+    { name: 'Dahi Puri', name_jp: 'ダヒ・プリ', desc: 'Crispy semolina shells, sweet yogurt, pomegranate, tamarind — a burst of flavour.', desc_jp: 'セモリナ粉の殻に、甘いヨーグルト、ザクロ、タマリンドを詰めた一品。', price: '₹180', tag: 'Popular', img: 'https://images.unsplash.com/photo-1606491956689-2ea866880c84?w=600&q=80' },
+    { name: 'Paneer Tikka', name_jp: 'パニール・ティッカ', desc: 'Cottage cheese cubes marinated in saffron yogurt, grilled to perfection in our tandoor.', desc_jp: 'サフランヨーグルトに漬け込み、釜で焼き上げたカッテージチーズ。', price: '₹300', tag: 'Veg', img: 'https://images.unsplash.com/photo-1565557623262-b51c2513a641?w=600&q=80' },
+    { name: 'Fish Amritsari', name_jp: 'フィッシュ・アムリトサリ', desc: 'Battered river fish seasoned with carom seeds and turmeric, crisp-fried, chaat masala dusted.', desc_jp: 'ターメリックなどで味付けし、カリッと揚げた川魚のフライ。', price: '₹350', tag: 'Seasonal', img: 'https://images.unsplash.com/photo-1625220194771-7ebdea0b70b9?w=600&q=80' },
   ],
   mains: [
     { name: 'Dal Makhani', desc: 'Black lentils slow-cooked for 18 hours with butter, cream and aromatic spices. A true classic.', price: '₹340', tag: 'Classic', img: 'https://images.unsplash.com/photo-1546833999-b9f581a1996d?w=600&q=80' },
@@ -162,6 +253,19 @@ hamburger.addEventListener('click', () => {
   mobileMenu.classList.toggle('hidden');
 });
 
+/* ─── LANGUAGE TOGGLE ────────────────────────────────────── */
+document.querySelectorAll('.lang-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    switchLanguage(btn.getAttribute('data-lang'));
+  });
+});
+
+/* ─── DOWNLOAD CARD ──────────────────────────────────────── */
+const downloadBtn = document.getElementById('download-card');
+const downloadBtnMobile = document.getElementById('download-card-mobile');
+if (downloadBtn) downloadBtn.addEventListener('click', downloadVisitingCard);
+if (downloadBtnMobile) downloadBtnMobile.addEventListener('click', downloadVisitingCard);
+
 /* ─── SMOOTH SCROLL ──────────────────────────────────────── */
 document.querySelectorAll('.scroll-link').forEach(link => {
   link.addEventListener('click', (e) => {
@@ -198,21 +302,24 @@ function renderMenu(category) {
   grid.style.opacity = '0';
   grid.style.transform = 'translateY(16px)';
   setTimeout(() => {
-    grid.innerHTML = menuData[category].map(item => `
+    grid.innerHTML = menuData[category].map(item => {
+      const name = currentLang === 'jp' && item.name_jp ? item.name_jp : item.name;
+      const desc = currentLang === 'jp' && item.desc_jp ? item.desc_jp : item.desc;
+      return `
       <div class="menu-card">
         <div class="menu-card-img-wrap">
-          <img src="${item.img}" alt="${item.name}" class="menu-card-img" loading="lazy"/>
+          <img src="${item.img}" alt="${name}" class="menu-card-img" loading="lazy"/>
         </div>
         <div class="menu-card-body">
-          <div class="menu-card-title">${item.name}</div>
-          <div class="menu-card-desc">${item.desc}</div>
+          <div class="menu-card-title">${name}</div>
+          <div class="menu-card-desc">${desc}</div>
           <div class="menu-card-footer">
             <span class="menu-card-price hidden">${item.price}</span>
             <span class="menu-card-tag">${item.tag}</span>
           </div>
         </div>
       </div>
-    `).join('');
+    `}).join('');
     grid.style.transition = 'all 0.5s ease';
     grid.style.opacity = '1';
     grid.style.transform = 'translateY(0)';
