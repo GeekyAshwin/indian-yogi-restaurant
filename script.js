@@ -25,7 +25,8 @@ const translations = {
     mon: "Monday", tue: "Tuesday", wed: "Wednesday", thu: "Thursday", fri: "Friday", sat: "Saturday", sun: "Sunday",
     parent_title: "Parent Company", parent_name: "Indra International CO., LTD.",
     parent_services: "We provide complete support for international business and travel management, including transportation, hotel bookings, itinerary planning, and on-ground assistance.",
-    parent_president_label: "President:", parent_president: "SINGH GOVIND SHREEMADYA", parent_email_label: "Email:"
+    parent_president_label: "President:", parent_president: "SINGH GOVIND SHREEMADYA", parent_email_label: "Email:",
+    tab_others: "Others"
   },
   jp: {
     nav_home: "ホーム", nav_menu: "メニュー", nav_gallery: "ギャラリー", nav_about: "わたしたちについて", nav_reviews: "レビュー", nav_contact: "予約・連絡", nav_download: "デジタルカード",
@@ -47,7 +48,8 @@ const translations = {
     mon: "月曜日", tue: "火曜日", wed: "水曜日", thu: "木曜日", fri: "金曜日", sat: "土曜日", sun: "日曜日",
     parent_title: "親会社", parent_name: "インドラ・インターナショナル有限会社",
     parent_services: "国際ビジネスや旅行管理を完全にサポートし、輸送、ホテルの予約、旅程の計画、現地の支援を提供しています。スパイスの販売も行っております。",
-    parent_president_label: "代表取締役:", parent_president: "シング・ゴヴィンド・シュリマディヤ", parent_email_label: "メール:"
+    parent_president_label: "代表取締役:", parent_president: "シング・ゴヴィンド・シュリマディヤ", parent_email_label: "メール:",
+    tab_others: "その他"
   }
 };
 
@@ -171,11 +173,15 @@ const galleryCategories = {
     { img: 'images/menuimage2.png', label: 'Drinks Selection' },
     { img: 'images/menuimage3.png', label: 'Main Course Details', size: 'wide' },
     { img: 'images/menuimage4.png', label: 'Dessert Menu' },
+    { img: 'images/menuimage5.jpeg', label: 'Main Menu & Sets' },
   ],
   guests: [
     { img: 'images/customers1.jpg', label: 'Happy Moments', size: 'tall' },
     { img: 'images/ladiesset.png', label: 'Warm Gatherings' },
     { img: 'https://images.unsplash.com/photo-1552566626-52f8b828add9?w=800&q=80', label: 'Guest Celebrations' },
+  ],
+  others: [
+    { img: 'images/grocery-business.jpeg', label: 'Yogi Grocery & Business', size: 'tall' },
   ]
 };
 
