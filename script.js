@@ -180,9 +180,7 @@ const galleryCategories = {
     { img: 'images/ladiesset.png', label: 'Warm Gatherings' },
     { img: 'https://images.unsplash.com/photo-1552566626-52f8b828add9?w=800&q=80', label: 'Guest Celebrations' },
   ],
-  others: [
-    { img: 'images/grocery-business.jpeg', label: 'Yogi Grocery & Business', size: 'tall' },
-  ]
+  others: []
 };
 
 /* Google Maps Place Data — fetched dynamically */
@@ -342,6 +340,8 @@ renderMenu('starters');
 
 /* ─── GALLERY ────────────────────────────────────────────── */
 let currentGalleryCategory = 'tab1';
+let currentLightboxImages = [];
+let sectionsCache = null;
 
 function updateGalleryTabStyles(activeTab) {
   document.querySelectorAll('.gallery-tab').forEach(t => {
@@ -356,12 +356,22 @@ function updateGalleryTabStyles(activeTab) {
 
 function renderGallery(category) {
   currentGalleryCategory = category;
+
+  if (category === 'others') {
+    renderOthersGallery();
+    return;
+  }
+
   const galleryGrid = document.querySelector('.gallery-grid');
+  galleryGrid.classList.remove('gallery-grid--sections');
   galleryGrid.style.opacity = '0';
   galleryGrid.style.transform = 'translateY(20px)';
-  
+
+  const items = galleryCategories[category];
+  currentLightboxImages = items.map(g => ({ img: g.img, label: g.label }));
+
   setTimeout(() => {
-    galleryGrid.innerHTML = galleryCategories[category].map((g, i) => `
+    galleryGrid.innerHTML = items.map((g, i) => `
       <div class="gallery-item ${g.size || ''}" data-index="${i}">
         <img src="${g.img}" alt="${g.label}" loading="lazy"/>
         <div class="gallery-overlay">
@@ -369,16 +379,109 @@ function renderGallery(category) {
         </div>
       </div>
     `).join('');
-    
+
     galleryGrid.style.transition = 'all 0.5s ease';
     galleryGrid.style.opacity = '1';
     galleryGrid.style.transform = 'translateY(0)';
-    
+
     // Re-attach lightbox listeners
     document.querySelectorAll('.gallery-item').forEach(item => {
       item.addEventListener('click', () => openLightbox(+item.dataset.index));
     });
   }, 200);
+}
+
+async function fetchSections() {
+  if (sectionsCache) return sectionsCache;
+  try {
+    const res = await fetch('https://yogirestaurantadminpanel.vercel.app/api/sections');
+    
+    if (!res.ok) throw new Error('Failed to fetch sections');
+    const data = await res.json();
+    sectionsCache = data;
+    return data;
+  } catch (err) {
+    console.error('Sections API error:', err);
+    return null;
+  }
+}
+
+function renderOthersGallery() {
+  const galleryGrid = document.querySelector('.gallery-grid');
+  galleryGrid.classList.add('gallery-grid--sections');
+  galleryGrid.style.opacity = '0';
+  galleryGrid.style.transform = 'translateY(20px)';
+
+  // Show loading spinner immediately
+  galleryGrid.innerHTML = `
+    <div class="sections-loading">
+      <div class="sections-spinner"></div>
+      <p>Loading sections...</p>
+    </div>`;
+  galleryGrid.style.transition = 'all 0.3s ease';
+  galleryGrid.style.opacity = '1';
+  galleryGrid.style.transform = 'translateY(0)';
+
+  fetchSections().then(sections => {
+    if (!sections || sections.length === 0) {
+      galleryGrid.innerHTML = '<p class="text-cream/50 text-center py-10">No sections available.</p>';
+      currentLightboxImages = [];
+      return;
+    }
+
+    // Build flat lightbox images array from all sections
+    currentLightboxImages = [];
+    sections.forEach(section => {
+      section.images.forEach(img => {
+        currentLightboxImages.push({ img: img.url, label: section.title });
+      });
+    });
+
+    galleryGrid.style.opacity = '0';
+    setTimeout(() => {
+      let html = '';
+      let globalIdx = 0;
+      sections.forEach(section => {
+        const imageCount = section.images.length;
+        const gridClass = imageCount === 1
+          ? 'section-images-grid--single'
+          : imageCount === 2
+            ? 'section-images-grid--double'
+            : '';
+
+        html += `
+          <div class="section-card">
+            <div class="section-card-header">
+              <h3 class="section-card-title">${section.title}</h3>
+              ${section.description ? `<p class="section-card-desc">${section.description}</p>` : ''}
+            </div>
+            <div class="section-images-grid ${gridClass}">
+              ${section.images.map(img => {
+                const idx = globalIdx++;
+                return `
+                  <div class="section-image-item" data-lightbox-index="${idx}">
+                    <img src="${img.url}" alt="${section.title}" loading="lazy" />
+                    <div class="gallery-overlay">
+                      <span class="gallery-overlay-text">${section.title}</span>
+                    </div>
+                  </div>`;
+              }).join('')}
+            </div>
+          </div>`;
+      });
+
+      galleryGrid.innerHTML = html;
+
+      // Attach lightbox listeners to section images
+      document.querySelectorAll('.section-image-item').forEach(item => {
+        item.addEventListener('click', () => openLightbox(+item.dataset.lightboxIndex));
+      });
+
+      galleryGrid.style.transition = 'all 0.5s ease';
+      galleryGrid.style.opacity = '1';
+      galleryGrid.style.transform = 'translateY(0)';
+    }, 200);
+  });
 }
 
 document.querySelectorAll('.gallery-tab').forEach(tab => {
@@ -397,10 +500,9 @@ const lbImg = document.getElementById('lightbox-img');
 let lbIndex = 0;
 
 function openLightbox(i) {
-  const data = galleryCategories[currentGalleryCategory];
   lbIndex = i;
-  lbImg.src = data[i].img;
-  lbImg.alt = data[i].label;
+  lbImg.src = currentLightboxImages[i].img;
+  lbImg.alt = currentLightboxImages[i].label;
   lightbox.classList.remove('hidden');
   lightbox.classList.add('flex');
   document.body.style.overflow = 'hidden';
@@ -411,12 +513,11 @@ function closeLightbox() {
   document.body.style.overflow = '';
 }
 function moveLightbox(dir) {
-  const data = galleryCategories[currentGalleryCategory];
-  lbIndex = (lbIndex + dir + data.length) % data.length;
+  lbIndex = (lbIndex + dir + currentLightboxImages.length) % currentLightboxImages.length;
   lbImg.style.opacity = '0';
   setTimeout(() => {
-    lbImg.src = data[lbIndex].img;
-    lbImg.alt = data[lbIndex].label;
+    lbImg.src = currentLightboxImages[lbIndex].img;
+    lbImg.alt = currentLightboxImages[lbIndex].label;
     lbImg.style.opacity = '1';
   }, 200);
   lbImg.style.transition = 'opacity 0.2s';
