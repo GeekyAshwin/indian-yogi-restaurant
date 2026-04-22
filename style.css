@@ -942,4 +942,173 @@ h1, h2, h3, h4, h5, h6 {
     margin-top: 1rem;
     align-self: flex-start;
   }
-}
+}
+
+/* Golden Week Carousel */
+.golden-carousel {
+  --golden-carousel-gap: 1.25rem;
+  overflow: hidden;
+}
+
+.golden-carousel-viewport {
+  overflow: hidden;
+  border-radius: 8px;
+}
+
+.golden-carousel-track {
+  display: flex;
+  gap: var(--golden-carousel-gap);
+  transition: transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: transform;
+}
+
+.golden-carousel-slide {
+  flex: 0 0 100%;
+  min-width: 0;
+}
+
+.golden-carousel-card {
+  height: 100%;
+  overflow: hidden;
+  border: 1px solid rgba(201, 168, 76, 0.16);
+  border-radius: 8px;
+  background: rgba(250, 247, 240, 0.04);
+  box-shadow: 0 18px 48px rgba(0, 0, 0, 0.22);
+  cursor: pointer;
+}
+
+.golden-carousel-image-wrap {
+  min-height: 340px;
+  max-height: 70vh;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  background:
+    radial-gradient(circle at center, rgba(201, 168, 76, 0.08), transparent 65%),
+    rgba(15, 14, 11, 0.5);
+}
+
+.golden-carousel-image {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: contain;
+  transition: transform 0.7s ease, filter 0.7s ease;
+}
+
+.golden-carousel-card:hover .golden-carousel-image {
+  transform: scale(1.06);
+  filter: saturate(1.08);
+}
+
+.golden-carousel-card:focus-visible {
+  outline: 2px solid var(--gold-light);
+  outline-offset: -2px;
+}
+
+.golden-carousel-caption {
+  padding: 1rem;
+  border-top: 1px solid rgba(201, 168, 76, 0.12);
+}
+
+.golden-carousel-kicker {
+  color: rgba(201, 168, 76, 0.85);
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+
+.golden-carousel-title {
+  margin-top: 0.35rem;
+  color: rgba(250, 247, 240, 0.82);
+  font-size: 0.92rem;
+  line-height: 1.45;
+}
+
+.golden-carousel-hint {
+  margin-top: 0.45rem;
+  color: rgba(250, 247, 240, 0.48);
+  font-size: 0.78rem;
+}
+
+.golden-carousel-controls {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.golden-carousel-btn {
+  width: 46px;
+  height: 46px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(201, 168, 76, 0.35);
+  border-radius: 8px;
+  background: rgba(250, 247, 240, 0.05);
+  color: var(--gold);
+  cursor: pointer;
+  transition: transform 0.3s ease, background 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+.golden-carousel-btn:hover,
+.golden-carousel-btn:focus-visible {
+  background: var(--gold-gradient);
+  border-color: transparent;
+  color: var(--dark);
+  transform: translateY(-2px);
+  outline: none;
+}
+
+.golden-carousel-btn span {
+  font-size: 1.35rem;
+  line-height: 1;
+}
+
+.golden-carousel-dots {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+  margin-top: 1.5rem;
+}
+
+.golden-carousel-dot {
+  width: 28px;
+  height: 4px;
+  border: 0;
+  border-radius: 999px;
+  background: rgba(250, 247, 240, 0.22);
+  cursor: pointer;
+  transition: width 0.3s ease, background 0.3s ease;
+}
+
+.golden-carousel-dot.is-active {
+  width: 42px;
+  background: var(--gold);
+}
+
+.golden-carousel-dot:focus-visible {
+  outline: 2px solid var(--gold-light);
+  outline-offset: 4px;
+}
+
+@media (max-width: 640px) {
+  .golden-carousel {
+    --golden-carousel-gap: 1rem;
+  }
+
+  .golden-carousel-image-wrap {
+    min-height: 260px;
+  }
+
+  .golden-carousel-controls {
+    width: 100%;
+  }
+
+  .golden-carousel-btn {
+    flex: 1;
+  }
+}

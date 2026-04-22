@@ -652,3 +652,204 @@ window.addEventListener('scroll', () => {
 backToTopBtn.addEventListener('click', () => {
   window.scrollTo({ top: 0, behavior: 'smooth' });
 });
+
+/* Golden Week Carousel */
+const goldenCarousel = document.querySelector('[data-golden-carousel]');
+if (goldenCarousel) {
+  const goldenCarouselTrack = goldenCarousel.querySelector('[data-golden-carousel-track]');
+  const goldenCarouselDots = goldenCarousel.querySelector('[data-golden-carousel-dots]');
+  const goldenCarouselPrev = document.querySelector('[data-golden-carousel-prev]');
+  const goldenCarouselNext = document.querySelector('[data-golden-carousel-next]');
+  const goldenImageBasePath = 'images/golden-days-images';
+  const goldenImageFiles = [
+    'WhatsApp Image 2026-04-21 at 12.51.38 PM (1).jpeg',
+    'WhatsApp Image 2026-04-21 at 12.51.38 PM.jpeg',
+    'WhatsApp Image 2026-04-21 at 12.51.39 PM (1).jpeg',
+    'WhatsApp Image 2026-04-21 at 12.51.39 PM (2).jpeg',
+    'WhatsApp Image 2026-04-21 at 12.51.39 PM (3).jpeg',
+    'WhatsApp Image 2026-04-21 at 12.51.39 PM.jpeg',
+    'WhatsApp Image 2026-04-21 at 12.51.40 PM (1).jpeg',
+    'WhatsApp Image 2026-04-21 at 12.51.40 PM (2).jpeg',
+    'WhatsApp Image 2026-04-21 at 12.51.40 PM.jpeg',
+    'WhatsApp Image 2026-04-21 at 12.51.41 PM (1).jpeg',
+    'WhatsApp Image 2026-04-21 at 12.51.41 PM.jpeg',
+    'WhatsApp Image 2026-04-22 at 9.19.15 AM (1).jpeg',
+    'WhatsApp Image 2026-04-22 at 9.19.15 AM.jpeg',
+    'WhatsApp Image 2026-04-22 at 9.19.16 AM (1).jpeg',
+    'WhatsApp Image 2026-04-22 at 9.19.16 AM (2).jpeg',
+    'WhatsApp Image 2026-04-22 at 9.19.16 AM.jpeg',
+    'WhatsApp Image 2026-04-22 at 9.19.17 AM (1).jpeg',
+    'WhatsApp Image 2026-04-22 at 9.19.17 AM (2).jpeg',
+    'WhatsApp Image 2026-04-22 at 9.19.17 AM.jpeg',
+    'WhatsApp Image 2026-04-22 at 9.19.18 AM (1).jpeg',
+    'WhatsApp Image 2026-04-22 at 9.19.18 AM (2).jpeg',
+    'WhatsApp Image 2026-04-22 at 9.19.18 AM (3).jpeg',
+    'WhatsApp Image 2026-04-22 at 9.19.18 AM.jpeg',
+    'WhatsApp Image 2026-04-22 at 9.19.19 AM (1).jpeg',
+    'WhatsApp Image 2026-04-22 at 9.19.19 AM (2).jpeg',
+    'WhatsApp Image 2026-04-22 at 9.19.19 AM.jpeg',
+    'WhatsApp Image 2026-04-22 at 9.19.20 AM (1).jpeg',
+    'WhatsApp Image 2026-04-22 at 9.19.20 AM (2).jpeg',
+    'WhatsApp Image 2026-04-22 at 9.19.20 AM.jpeg',
+    'WhatsApp Image 2026-04-22 at 9.19.21 AM (1).jpeg',
+    'WhatsApp Image 2026-04-22 at 9.19.21 AM (2).jpeg',
+    'WhatsApp Image 2026-04-22 at 9.19.21 AM (3).jpeg',
+    'WhatsApp Image 2026-04-22 at 9.19.21 AM.jpeg',
+    'WhatsApp Image 2026-04-22 at 9.19.22 AM (1).jpeg',
+    'WhatsApp Image 2026-04-22 at 9.19.22 AM (2).jpeg',
+    'WhatsApp Image 2026-04-22 at 9.19.22 AM.jpeg',
+    'WhatsApp Image 2026-04-22 at 9.19.23 AM (1).jpeg',
+    'WhatsApp Image 2026-04-22 at 9.19.23 AM (2).jpeg',
+    'WhatsApp Image 2026-04-22 at 9.19.23 AM.jpeg',
+    'WhatsApp Image 2026-04-22 at 9.19.24 AM (1).jpeg',
+    'WhatsApp Image 2026-04-22 at 9.19.24 AM (2).jpeg',
+    'WhatsApp Image 2026-04-22 at 9.19.24 AM (3).jpeg',
+    'WhatsApp Image 2026-04-22 at 9.19.24 AM.jpeg',
+    'WhatsApp Image 2026-04-22 at 9.19.25 AM (1).jpeg',
+    'WhatsApp Image 2026-04-22 at 9.19.25 AM (2).jpeg',
+    'WhatsApp Image 2026-04-22 at 9.19.25 AM.jpeg',
+    'WhatsApp Image 2026-04-22 at 9.19.32 AM (1).jpeg',
+    'WhatsApp Image 2026-04-22 at 9.19.32 AM.jpeg',
+    'WhatsApp Image 2026-04-22 at 9.19.33 AM (1).jpeg',
+    'WhatsApp Image 2026-04-22 at 9.19.33 AM (2).jpeg',
+    'WhatsApp Image 2026-04-22 at 9.19.33 AM.jpeg',
+    'WhatsApp Image 2026-04-22 at 9.19.34 AM (1).jpeg',
+    'WhatsApp Image 2026-04-22 at 9.19.34 AM.jpeg',
+  ];
+
+  let currentGoldenSlide = 0;
+  let touchStartX = 0;
+  const goldenLightboxImages = goldenImageFiles.map((file, index) => ({
+    img: encodeURI(`${goldenImageBasePath}/${file}`),
+    label: `Golden Week special buffet dish ${index + 1} at Indian Restaurant YOGI`,
+  }));
+
+  function getGoldenMaxIndex() {
+    return Math.max(0, goldenImageFiles.length - 1);
+  }
+
+  function getGoldenPageStartIndexes() {
+    return goldenImageFiles.map((_, index) => index);
+  }
+
+  function renderGoldenCarouselSlides() {
+    const slides = goldenImageFiles.map((file, index) => {
+      const slideNumber = String(index + 1).padStart(2, '0');
+      const imagePath = encodeURI(`${goldenImageBasePath}/${file}`);
+
+      return `
+        <article class="golden-carousel-slide">
+          <div class="golden-carousel-card" data-golden-lightbox-index="${index}" role="button" tabindex="0" aria-label="Open Golden Week highlight ${slideNumber} in full view">
+            <div class="golden-carousel-image-wrap">
+              <img
+                src="${imagePath}"
+                alt="Golden Week special buffet dish ${index + 1} at Indian Restaurant YOGI"
+                class="golden-carousel-image"
+                loading="${index === 0 ? 'eager' : 'lazy'}"
+                decoding="async"
+              />
+            </div>
+            <div class="golden-carousel-caption">
+              <div class="golden-carousel-kicker">Golden Week</div>
+              <p class="golden-carousel-title">Featured buffet highlight ${slideNumber}</p>
+              <p class="golden-carousel-hint">Tap or click to view full image</p>
+            </div>
+          </div>
+        </article>
+      `;
+    }).join('');
+
+    goldenCarouselTrack.innerHTML = slides;
+  }
+
+  function renderGoldenCarouselDots() {
+    const pages = getGoldenPageStartIndexes();
+
+    goldenCarouselDots.innerHTML = pages.map((slideIndex, index) => `
+      <button
+        class="golden-carousel-dot${slideIndex === currentGoldenSlide ? ' is-active' : ''}"
+        type="button"
+        data-golden-carousel-slide="${slideIndex}"
+        aria-label="Show Golden Week gallery page ${index + 1}"
+        aria-current="${slideIndex === currentGoldenSlide ? 'true' : 'false'}"
+      ></button>
+    `).join('');
+  }
+
+  function updateGoldenCarousel() {
+    const slide = goldenCarouselTrack.querySelector('.golden-carousel-slide');
+    if (!slide) return;
+
+    currentGoldenSlide = Math.min(currentGoldenSlide, getGoldenMaxIndex());
+
+    const trackStyles = window.getComputedStyle(goldenCarouselTrack);
+    const gap = parseFloat(trackStyles.columnGap || trackStyles.gap) || 0;
+    const slideStep = slide.getBoundingClientRect().width + gap;
+
+    goldenCarouselTrack.style.transform = `translateX(-${currentGoldenSlide * slideStep}px)`;
+    renderGoldenCarouselDots();
+  }
+
+  function moveGoldenCarousel(direction) {
+    const maxIndex = getGoldenMaxIndex();
+    const nextIndex = currentGoldenSlide + direction;
+
+    if (nextIndex > maxIndex) {
+      currentGoldenSlide = 0;
+    } else if (nextIndex < 0) {
+      currentGoldenSlide = maxIndex;
+    } else {
+      currentGoldenSlide = nextIndex;
+    }
+
+    updateGoldenCarousel();
+  }
+
+  renderGoldenCarouselSlides();
+  updateGoldenCarousel();
+
+  goldenCarouselPrev?.addEventListener('click', () => moveGoldenCarousel(-1));
+  goldenCarouselNext?.addEventListener('click', () => moveGoldenCarousel(1));
+
+  goldenCarouselDots.addEventListener('click', (event) => {
+    const dot = event.target.closest('[data-golden-carousel-slide]');
+    if (!dot) return;
+
+    currentGoldenSlide = Number(dot.dataset.goldenCarouselSlide);
+    updateGoldenCarousel();
+  });
+
+  goldenCarouselTrack.addEventListener('click', (event) => {
+    const slideCard = event.target.closest('[data-golden-lightbox-index]');
+    if (!slideCard) return;
+
+    currentLightboxImages = goldenLightboxImages;
+    openLightbox(Number(slideCard.dataset.goldenLightboxIndex));
+  });
+
+  goldenCarouselTrack.addEventListener('keydown', (event) => {
+    const slideCard = event.target.closest('[data-golden-lightbox-index]');
+    if (!slideCard) return;
+
+    if (event.key === 'Enter' || event.key === ' ') {
+      event.preventDefault();
+      currentLightboxImages = goldenLightboxImages;
+      openLightbox(Number(slideCard.dataset.goldenLightboxIndex));
+    }
+  });
+
+  goldenCarousel.addEventListener('touchstart', (event) => {
+    touchStartX = event.touches[0].clientX;
+  }, { passive: true });
+
+  goldenCarousel.addEventListener('touchend', (event) => {
+    const touchEndX = event.changedTouches[0].clientX;
+    const touchDelta = touchStartX - touchEndX;
+
+    if (Math.abs(touchDelta) > 45) {
+      moveGoldenCarousel(touchDelta > 0 ? 1 : -1);
+    }
+  }, { passive: true });
+
+  window.addEventListener('resize', updateGoldenCarousel);
+}
