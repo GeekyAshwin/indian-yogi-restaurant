@@ -653,13 +653,10 @@ backToTopBtn.addEventListener('click', () => {
   window.scrollTo({ top: 0, behavior: 'smooth' });
 });
 
-/* Golden Week Carousel */
-const goldenCarousel = document.querySelector('[data-golden-carousel]');
-if (goldenCarousel) {
-  const goldenCarouselTrack = goldenCarousel.querySelector('[data-golden-carousel-track]');
-  const goldenCarouselDots = goldenCarousel.querySelector('[data-golden-carousel-dots]');
-  const goldenCarouselPrev = document.querySelector('[data-golden-carousel-prev]');
-  const goldenCarouselNext = document.querySelector('[data-golden-carousel-next]');
+/* Golden Week Gallery */
+const goldenGalleryGrid = document.querySelector('[data-golden-gallery-grid]');
+const goldenGalleryTabs = document.querySelectorAll('[data-golden-tab]');
+if (goldenGalleryGrid && goldenGalleryTabs.length) {
   const goldenImageBasePath = 'images/golden-days-images';
   const goldenImageFiles = [
     'WhatsApp Image 2026-04-21 at 12.51.38 PM (1).jpeg',
@@ -716,140 +713,92 @@ if (goldenCarousel) {
     'WhatsApp Image 2026-04-22 at 9.19.34 AM (1).jpeg',
     'WhatsApp Image 2026-04-22 at 9.19.34 AM.jpeg',
   ];
-
-  let currentGoldenSlide = 0;
-  let touchStartX = 0;
-  const goldenLightboxImages = goldenImageFiles.map((file, index) => ({
+  const goldenImageItems = goldenImageFiles.map((file, index) => ({
     img: encodeURI(`${goldenImageBasePath}/${file}`),
     label: `Golden Week special buffet dish ${index + 1} at Indian Restaurant YOGI`,
+    title: `Featured buffet highlight ${String(index + 1).padStart(2, '0')}`,
   }));
+  const goldenGalleryCategories = {
+    'buffet-spread': {
+      kicker: 'Buffet Spread',
+      items: goldenImageItems.slice(0, 14),
+    },
+    'signature-dishes': {
+      kicker: 'Signature Dishes',
+      items: goldenImageItems.slice(14, 28),
+    },
+    'fresh-highlights': {
+      kicker: 'Fresh Highlights',
+      items: goldenImageItems.slice(28, 41),
+    },
+    'festival-moments': {
+      kicker: 'Festival Moments',
+      items: goldenImageItems.slice(41),
+    },
+  };
 
-  function getGoldenMaxIndex() {
-    return Math.max(0, goldenImageFiles.length - 1);
+  function updateGoldenTabStyles(activeTab) {
+    goldenGalleryTabs.forEach((tab) => {
+      tab.classList.remove('active');
+      tab.classList.remove('!bg-gradient-to-r', '!from-gold', '!to-gold-dark', '!text-dark', '!border-gold');
+      tab.classList.add('!text-cream', '!border-gold/30');
+    });
+
+    activeTab.classList.add('active');
+    activeTab.classList.remove('!text-cream', '!border-gold/30');
+    activeTab.classList.add('!bg-gradient-to-r', '!from-gold', '!to-gold-dark', '!text-dark', '!border-gold');
   }
 
-  function getGoldenPageStartIndexes() {
-    return goldenImageFiles.map((_, index) => index);
-  }
+  function renderGoldenGallery(category) {
+    const categoryData = goldenGalleryCategories[category];
+    if (!categoryData) return;
 
-  function renderGoldenCarouselSlides() {
-    const slides = goldenImageFiles.map((file, index) => {
-      const slideNumber = String(index + 1).padStart(2, '0');
-      const imagePath = encodeURI(`${goldenImageBasePath}/${file}`);
+    currentLightboxImages = categoryData.items.map(({ img, label }) => ({ img, label }));
+    goldenGalleryGrid.style.opacity = '0';
+    goldenGalleryGrid.style.transform = 'translateY(20px)';
 
-      return `
-        <article class="golden-carousel-slide">
-          <div class="golden-carousel-card" data-golden-lightbox-index="${index}" role="button" tabindex="0" aria-label="Open Golden Week highlight ${slideNumber} in full view">
-            <div class="golden-carousel-image-wrap">
-              <img
-                src="${imagePath}"
-                alt="Golden Week special buffet dish ${index + 1} at Indian Restaurant YOGI"
-                class="golden-carousel-image"
-                loading="${index === 0 ? 'eager' : 'lazy'}"
-                decoding="async"
-              />
-            </div>
-            <div class="golden-carousel-caption">
-              <div class="golden-carousel-kicker">Golden Week</div>
-              <p class="golden-carousel-title">Featured buffet highlight ${slideNumber}</p>
-              <p class="golden-carousel-hint">Tap or click to view full image</p>
-            </div>
+    setTimeout(() => {
+      goldenGalleryGrid.innerHTML = categoryData.items.map((item, index) => `
+        <article class="golden-gallery-item" data-golden-lightbox-index="${index}" role="button" tabindex="0" aria-label="Open ${item.title} in full view">
+          <div class="golden-gallery-image-wrap">
+            <img
+              src="${item.img}"
+              alt="${item.label}"
+              class="golden-gallery-image"
+              loading="${index < 2 ? 'eager' : 'lazy'}"
+              decoding="async"
+            />
+          </div>
+          <div class="golden-gallery-caption">
+            <div class="golden-gallery-kicker">${categoryData.kicker}</div>
+            <p class="golden-gallery-title">${item.title}</p>
+            <p class="golden-gallery-hint">Tap or click to view full image</p>
           </div>
         </article>
-      `;
-    }).join('');
+      `).join('');
 
-    goldenCarouselTrack.innerHTML = slides;
+      goldenGalleryGrid.querySelectorAll('[data-golden-lightbox-index]').forEach((item) => {
+        item.addEventListener('click', () => openLightbox(Number(item.dataset.goldenLightboxIndex)));
+        item.addEventListener('keydown', (event) => {
+          if (event.key === 'Enter' || event.key === ' ') {
+            event.preventDefault();
+            openLightbox(Number(item.dataset.goldenLightboxIndex));
+          }
+        });
+      });
+
+      goldenGalleryGrid.style.transition = 'all 0.5s ease';
+      goldenGalleryGrid.style.opacity = '1';
+      goldenGalleryGrid.style.transform = 'translateY(0)';
+    }, 180);
   }
 
-  function renderGoldenCarouselDots() {
-    const pages = getGoldenPageStartIndexes();
-
-    goldenCarouselDots.innerHTML = pages.map((slideIndex, index) => `
-      <button
-        class="golden-carousel-dot${slideIndex === currentGoldenSlide ? ' is-active' : ''}"
-        type="button"
-        data-golden-carousel-slide="${slideIndex}"
-        aria-label="Show Golden Week gallery page ${index + 1}"
-        aria-current="${slideIndex === currentGoldenSlide ? 'true' : 'false'}"
-      ></button>
-    `).join('');
-  }
-
-  function updateGoldenCarousel() {
-    const slide = goldenCarouselTrack.querySelector('.golden-carousel-slide');
-    if (!slide) return;
-
-    currentGoldenSlide = Math.min(currentGoldenSlide, getGoldenMaxIndex());
-
-    const trackStyles = window.getComputedStyle(goldenCarouselTrack);
-    const gap = parseFloat(trackStyles.columnGap || trackStyles.gap) || 0;
-    const slideStep = slide.getBoundingClientRect().width + gap;
-
-    goldenCarouselTrack.style.transform = `translateX(-${currentGoldenSlide * slideStep}px)`;
-    renderGoldenCarouselDots();
-  }
-
-  function moveGoldenCarousel(direction) {
-    const maxIndex = getGoldenMaxIndex();
-    const nextIndex = currentGoldenSlide + direction;
-
-    if (nextIndex > maxIndex) {
-      currentGoldenSlide = 0;
-    } else if (nextIndex < 0) {
-      currentGoldenSlide = maxIndex;
-    } else {
-      currentGoldenSlide = nextIndex;
-    }
-
-    updateGoldenCarousel();
-  }
-
-  renderGoldenCarouselSlides();
-  updateGoldenCarousel();
-
-  goldenCarouselPrev?.addEventListener('click', () => moveGoldenCarousel(-1));
-  goldenCarouselNext?.addEventListener('click', () => moveGoldenCarousel(1));
-
-  goldenCarouselDots.addEventListener('click', (event) => {
-    const dot = event.target.closest('[data-golden-carousel-slide]');
-    if (!dot) return;
-
-    currentGoldenSlide = Number(dot.dataset.goldenCarouselSlide);
-    updateGoldenCarousel();
+  goldenGalleryTabs.forEach((tab) => {
+    tab.addEventListener('click', () => {
+      updateGoldenTabStyles(tab);
+      renderGoldenGallery(tab.dataset.goldenTab);
+    });
   });
 
-  goldenCarouselTrack.addEventListener('click', (event) => {
-    const slideCard = event.target.closest('[data-golden-lightbox-index]');
-    if (!slideCard) return;
-
-    currentLightboxImages = goldenLightboxImages;
-    openLightbox(Number(slideCard.dataset.goldenLightboxIndex));
-  });
-
-  goldenCarouselTrack.addEventListener('keydown', (event) => {
-    const slideCard = event.target.closest('[data-golden-lightbox-index]');
-    if (!slideCard) return;
-
-    if (event.key === 'Enter' || event.key === ' ') {
-      event.preventDefault();
-      currentLightboxImages = goldenLightboxImages;
-      openLightbox(Number(slideCard.dataset.goldenLightboxIndex));
-    }
-  });
-
-  goldenCarousel.addEventListener('touchstart', (event) => {
-    touchStartX = event.touches[0].clientX;
-  }, { passive: true });
-
-  goldenCarousel.addEventListener('touchend', (event) => {
-    const touchEndX = event.changedTouches[0].clientX;
-    const touchDelta = touchStartX - touchEndX;
-
-    if (Math.abs(touchDelta) > 45) {
-      moveGoldenCarousel(touchDelta > 0 ? 1 : -1);
-    }
-  }, { passive: true });
-
-  window.addEventListener('resize', updateGoldenCarousel);
+  renderGoldenGallery('buffet-spread');
 }

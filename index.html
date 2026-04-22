@@ -337,7 +337,7 @@
     <div class="absolute inset-0 bg-[radial-gradient(circle_at_bottom_left,rgba(201,168,76,0.14),transparent_36%),linear-gradient(135deg,rgba(255,255,255,0.025),transparent_58%)] pointer-events-none"></div>
 
     <div class="max-w-7xl mx-auto relative z-10">
-      <div class="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6 mb-10 reveal-up">
+      <div class="reveal-up">
         <div>
           <p class="section-label text-gold/80">Golden Week Gallery</p>
           <h2 class="font-heading text-4xl md:text-5xl font-bold text-cream mt-4">
@@ -347,21 +347,17 @@
             A festive look at the special dishes, buffet spreads, and freshly prepared favorites for Golden Week.
           </p>
         </div>
-        <div class="golden-carousel-controls" aria-label="Golden Week carousel navigation">
-          <button class="golden-carousel-btn" type="button" data-golden-carousel-prev aria-label="Previous Golden Week food highlights">
-            <span aria-hidden="true">&larr;</span>
-          </button>
-          <button class="golden-carousel-btn" type="button" data-golden-carousel-next aria-label="Next Golden Week food highlights">
-            <span aria-hidden="true">&rarr;</span>
-          </button>
-        </div>
       </div>
 
-      <div class="golden-carousel reveal-up" data-golden-carousel>
-        <div class="golden-carousel-viewport">
-          <div class="golden-carousel-track" data-golden-carousel-track></div>
-        </div>
-        <div class="golden-carousel-dots" data-golden-carousel-dots aria-label="Golden Week gallery slides"></div>
+      <div class="flex flex-wrap gap-3 mt-10 reveal-up" data-golden-gallery-tabs aria-label="Golden Week gallery tabs">
+        <button class="gallery-tab golden-gallery-tab !bg-gradient-to-r !from-gold !to-gold-dark !text-dark !border-gold active" type="button" data-golden-tab="buffet-spread">Buffet Spread</button>
+        <button class="gallery-tab golden-gallery-tab !text-cream !border-gold/30" type="button" data-golden-tab="signature-dishes">Signature Dishes</button>
+        <button class="gallery-tab golden-gallery-tab !text-cream !border-gold/30" type="button" data-golden-tab="fresh-highlights">Fresh Highlights</button>
+        <button class="gallery-tab golden-gallery-tab !text-cream !border-gold/30" type="button" data-golden-tab="festival-moments">Festival Moments</button>
+      </div>
+
+      <div class="golden-gallery-grid mt-10 reveal-up" data-golden-gallery-grid>
+        <!-- Golden Week images populated by JS -->
       </div>
     </div>
   </section>
